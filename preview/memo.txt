@@ -2,3 +2,5 @@ Jetson Nano with ubuntu 16
 macAddress:   02:d9:0a:ad:35:b1
 
 or 88:36:6c:fc:25:cc
+
+>ssh sungsik@sungsik-desktop
