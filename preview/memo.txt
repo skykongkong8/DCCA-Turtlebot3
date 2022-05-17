@@ -1,6 +1,17 @@
-Jetson Nano with ubuntu 16
-macAddress:   02:d9:0a:ad:35:b1
+Jetson Nano with ubuntu 18
+macAddress:  1C:BF:CE:AF:FE:83
+
+-> first and foremost : check if both of the devices are connected to the same network
+from window : use ipscanner (in my case : Advanced IP Scanner)
+from linux :
+sudo apt-get install nmap
+sudo nmap -sn {yourIPby3digit}.0/255
+ex) sudo namp -sn 192.168.1.0/24 -> I dunno why but for some reason using big numbers make it keep fails
+
+
+02:d9:0a:ad:35:b1
 
 or 88:36:6c:fc:25:cc
+
 
 >ssh sungsik@sungsik-desktop
