@@ -1,17 +1,26 @@
 import numpy as np
 import cv2
 import pyrealsense2.pyrealsense2 as rs
+from camera_constants import DCCACameraConstants
 
 class IRDRealsenseCamera:
     def __init__(self):
         self.pipeline = rs.pipeline()
         config = rs.config()
-        config.enable_stream(rs.stream.infrared, 640, 480, rs.format.y8, 15) # if there is an frame drop 30 -> 15 + format is y8
-        config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 15)
+
+        resolution = self.get_resolution()
+        config.enable_stream(rs.stream.infrared, resolution[0], resolution[1], rs.format.y8, 15) # if there is an frame drop 30 -> 15 + format is y8
+        config.enable_stream(rs.stream.depth, resolution[0], resolution[1], rs.format.z16, 15)
 
         self.pipeline.start(config)
         align_to=rs.stream.infrared
         self.align = rs.align(align_to)
+
+    def get_resolution(self):
+        camera_constants = DCCACameraConstants()
+        width = camera_constants.FrameWidth
+        height = camera_constants.FrameHeight
+        return [width, height]
 
     def get_frame_stream(self):
         frames = self.pipeline.wait_for_frames()
