@@ -12,7 +12,7 @@ class RealsenseCamera:
 
         self.pipeline.start(config)
         align_to = rs.stream.color
-        self.align = rs.aling(align_to)
+        self.align = rs.align(align_to)
 
     def get_frame_stream(self):
         # get only stabilized frames
