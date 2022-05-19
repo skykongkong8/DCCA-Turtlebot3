@@ -43,6 +43,25 @@ FRAME_HEIGHT = 480
 # FRAME_WIDTH = 426
 # FRAME_HEIGHT = 240
 
+"""
+**FRAME RATE TUNING TRIAL LOG!**
+
+[WARNING] : this is only subjective assessment, so it might vary under your environment or purpose...
+[example DEVICE] : IntelRealsense D430 Module + NVDIA Jetson Nano
+
+120 : not working
+
+100 : 
+
+90 : a little bit better
+
+60 : doable
+
+30 : not bad
+
+15 : least working
+"""
+FRAME_RATE = 60 # aka, FPS
 
 def rgb_checker():
     tmp_pipeline = rs.pipeline()
@@ -64,8 +83,10 @@ def rgb_checker():
 class DCCACameraConstants:
     FrameWidth : int = FRAME_WIDTH
     FrameHeight : int = FRAME_HEIGHT
+    FrameRate : int = FRAME_RATE
     RGB : bool = rgb_checker()[0]
     device_product_line : str = rgb_checker()[1]
+    
 
 if __name__ == "__main__":
     cameraconstant = DCCACameraConstants()

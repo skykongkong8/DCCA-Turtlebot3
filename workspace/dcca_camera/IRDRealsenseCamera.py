@@ -8,19 +8,26 @@ class IRDRealsenseCamera:
         self.pipeline = rs.pipeline()
         config = rs.config()
 
+        self.camera_constants = DCCACameraConstants()
         resolution = self.get_resolution()
-        config.enable_stream(rs.stream.infrared, resolution[0], resolution[1], rs.format.y8, 15) # if there is an frame drop 30 -> 15 + format is y8
-        config.enable_stream(rs.stream.depth, resolution[0], resolution[1], rs.format.z16, 15)
+        framerate = self.get_framerate()
+        config.enable_stream(rs.stream.infrared, resolution[0], resolution[1], rs.format.y8, framerate) # if there is an frame drop 30 -> 15 + format is y8
+        config.enable_stream(rs.stream.depth, resolution[0], resolution[1], rs.format.z16, framerate)
 
         self.pipeline.start(config)
         align_to=rs.stream.infrared
         self.align = rs.align(align_to)
 
     def get_resolution(self):
-        camera_constants = DCCACameraConstants()
-        width = camera_constants.FrameWidth
-        height = camera_constants.FrameHeight
+        width = self.camera_constants.FrameWidth
+        height = self.camera_constants.FrameHeight
         return [width, height]
+
+    def get_framerate(self):
+        framerate = self.camera_constants.FrameRate
+        return framerate
+        
+
 
     def get_frame_stream(self):
         frames = self.pipeline.wait_for_frames()
