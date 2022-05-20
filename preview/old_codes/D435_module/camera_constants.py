@@ -5,9 +5,9 @@ import pyrealsense2.pyrealsense2 as rs
 **RESOLUTION TUNING TRIAL LOG!** 
 
 [WARNING] : this is only subjective assessment, so it might vary under your environment or purpose...
-[example DEVICE] : IntelRealsense D435 + NVDIA Jetson Nano
+[example DEVICE] : IntelRealsense D430 Module + NVDIA Jetson Nano
 
-HD : not working
+HD : extreme latency...
 
 SVGA : not working
 
@@ -28,8 +28,8 @@ QVGA : not working
 # FRAME_HEIGHT = 600
 
 # # WVGA resolution
-# FRAME_WIDTH = 600
-# FRAME_HEIGHT = 800
+# FRAME_WIDTH = 800
+# FRAME_HEIGHT = 600
 
 # # VGA resolution - (affordable)
 FRAME_WIDTH = 640
@@ -47,13 +47,13 @@ FRAME_HEIGHT = 480
 **FRAME RATE TUNING TRIAL LOG!**
 
 [WARNING] : this is only subjective assessment, so it might vary under your environment or purpose...
-[example DEVICE] : IntelRealsense D435 + NVDIA Jetson Nano
+[example DEVICE] : IntelRealsense D430 Module + NVDIA Jetson Nano
 
 120 : not working
 
-100 : not working
+100 : 
 
-90 : not working
+90 : a little bit better
 
 60 : doable
 
@@ -61,7 +61,7 @@ FRAME_HEIGHT = 480
 
 15 : least working
 """
-FRAME_RATE = 60 # aka, FPS
+FRAME_RATE = 30 # aka, FPS
 
 def rgb_checker():
     tmp_pipeline = rs.pipeline()
