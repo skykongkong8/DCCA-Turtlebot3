@@ -2,6 +2,23 @@ from dataclasses import dataclass
 import pyrealsense2.pyrealsense2 as rs
 
 """
+[ CAMERA CONSTANTS ]
+
+* This file includes all basic settings / hard-code needed information of Intel RealSense Camera connected to the DCCA Agent.
+Please add constants you need below whenever you code it. *
+
+<CAMERA CONSTANTS>
+- frame width
+- frame hieght
+- fps
+- device product line
+- whether rgb channel is possible or not
+
+"""
+
+
+
+"""
 **RESOLUTION TUNING TRIAL LOG!** 
 
 [WARNING] : this is only subjective assessment, so it might vary under your environment or purpose...
@@ -63,7 +80,7 @@ FRAME_HEIGHT = 480
 """
 FRAME_RATE = 60 # aka, FPS
 
-def rgb_checker():
+def device_checker():
     tmp_pipeline = rs.pipeline()
     tmp_config = rs.config()
 
@@ -81,11 +98,30 @@ def rgb_checker():
 
 @dataclass
 class DCCACameraConstants:
+
+    """
+    [ DCCA CAMERA CONSTANTS ]
+
+    - FrameWidth
+    - FrameHeight
+    - FrameRate
+    - RGB
+    - DeviceProductLine
+
+    """
+
+    # DCCACameraConstants class attribute naming rule:
+    # - No Underbar 
+    # - Capital letter for every new word
+    # - Specify the datatype
+    
     FrameWidth : int = FRAME_WIDTH
     FrameHeight : int = FRAME_HEIGHT
     FrameRate : int = FRAME_RATE
-    RGB : bool = rgb_checker()[0]
-    device_product_line : str = rgb_checker()[1]
+
+    device_info = device_checker() # this is not an intended attribute
+    RGB : bool = device_info[0]
+    DeviceProductLine : str = device_info[1]
     
 
 if __name__ == "__main__":

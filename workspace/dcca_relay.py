@@ -8,10 +8,7 @@
         # Class, Distance, LevelOfDangerous, 
 # 5. Output을 다듬어서 반환함. (아니면 Info등의 토픽으로 publish함)
 
-from realsense_camera.dcca_camera import RealsenseCamera
-from dcca_dataStructure import DCCA_DataStructure
 
-rs = RealsenseCamera()
 
 while True:
     flag, bgr_frame, depth_frame = rs.get_frame_stream()
