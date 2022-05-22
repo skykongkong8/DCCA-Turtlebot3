@@ -1,5 +1,7 @@
 #<Jetson Nano ubuntu 18.0.04>
 
+sudo apt-get update -y
+
 sudo apt-get upgrade -y
 
 sudo apt-get install -y chrony ntpdate build-essential curl nano

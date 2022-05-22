@@ -56,9 +56,9 @@ class RGBDRealsenseCamera:
         depth_frame = self.apply_DepthFilter(depth_frame) # if you block out this code : your can observe the effect of the filter
 
         depth_image = np.asanyarray(depth_frame.get_data())
-        infrared_image = np.asanyarray(rgb_frame.get_data())
+        rgb_image = np.asanyarray(rgb_frame.get_data())
 
-        return True, infrared_image, depth_image
+        return True, rgb_image, depth_image
 
     def release(self):
         self.pipeline.stop()

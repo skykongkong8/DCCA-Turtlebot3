@@ -1,5 +1,5 @@
 #https://pysource.com
-import pyrealsense2 as rs
+import pyrealsense2.pyrealsense2 as rs
 import numpy as np
 
 
