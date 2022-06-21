@@ -25,7 +25,7 @@ class RGBDRealsenseCamera:
     def get_resolution(self):
         width = self.camera_constants.FrameWidth
         height = self.camera_constants.FrameHeight
-        return [width, height]
+        return (width, height)
 
     def get_framerate(self):
         framerate = self.camera_constants.FrameRate
