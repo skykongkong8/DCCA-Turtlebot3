@@ -19,7 +19,7 @@ class RGBDRealsenseCamera:
 
         self.pipeline.start(config)
         
-        align_to=rs.stream.infrared
+        align_to=rs.stream.color
         self.align = rs.align(align_to)
 
     def get_resolution(self):

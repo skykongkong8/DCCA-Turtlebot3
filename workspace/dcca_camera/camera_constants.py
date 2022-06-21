@@ -78,7 +78,7 @@ FRAME_HEIGHT = 480
 
 15 : least working
 """
-FRAME_RATE = 60 # aka, FPS
+FRAME_RATE = 30 # aka, FPS
 
 def device_checker():
     tmp_pipeline = rs.pipeline()

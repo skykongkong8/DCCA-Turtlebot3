@@ -9,7 +9,7 @@ class DCCACamera(RGBDRealsenseCamera):
     def __init__(self):
         super().__init__()
         print("RGBCamera Initialized...")
-        self.yoloManager = DCCAYoloManager(self.get_resolution)
+        self.yoloManager = DCCAYoloManager(self.get_resolution())
         model_setting = self.yoloManager.get_model()
         self.model = model_setting[0]
         self.stride = model_setting[1]
@@ -31,8 +31,8 @@ if __name__ == "__main__":
     try:
         while True:
             dcca_camera.yolov5(cvView = True)
-    except Exception as e:
-        print(e)
+    # except Exception as e:
+    #     print(e)
     finally:
         dcca_camera.release()
 
