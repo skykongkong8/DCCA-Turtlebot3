@@ -108,8 +108,8 @@ class RGBDRealsenseCamera:
 
 
 if __name__ == "__main__":
-    ird = RGBDRealsenseCamera()
-    ird.view_by_cv2()
+    rgbd = RGBDRealsenseCamera()
+    rgbd.view_by_cv2()
 
 
 
