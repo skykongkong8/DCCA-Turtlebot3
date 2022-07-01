@@ -2,7 +2,7 @@ import sys
 sys.path.append("..")
 from RGBDRealsenseCamera import RGBDRealsenseCamera
 from yolov5.DCCAYoloManager import DCCAYoloManager
-from yolov5.recognition_with_realsense import run
+# from yolov5.recognition_with_realsense import run
 
 
 
@@ -27,13 +27,13 @@ class DCCACamera(RGBDRealsenseCamera):
     def dcca_yolov5(self, cvView = False):
         flag, rgb_img, depth_img = self.get_frame_stream()
         if flag:
-            detected_img = self.yoloManager.process_model_in_loop(rgb_img, self.model, self.device, self.names)
-
+            detected_img, detected_results = self.yoloManager.process_model_in_loop(rgb_img, self.model, self.device, self.names)
+            print(detected_results)
             if cvView:
                 self.yoloManager.view_detection_and_depth(detected_img, depth_img)
 
-    def _psuedo_recognition_with_realsense(self):
-        run()
+    # def _psuedo_recognition_with_realsense(self):
+    #     run()
 
 
 if __name__ == "__main__":

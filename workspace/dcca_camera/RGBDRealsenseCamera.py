@@ -53,7 +53,7 @@ class RGBDRealsenseCamera:
             print("NoFrameError")
             return False, None, None
 
-        depth_frame = self.apply_DepthFilter(depth_frame) # if you block out this code : your can observe the effect of the filter
+        depth_frame = self.apply_DepthFilter(depth_frame) # if you block out this code, your can observe the effect of the filter
 
         depth_image = np.asanyarray(depth_frame.get_data())
         rgb_image = np.asanyarray(rgb_frame.get_data())
