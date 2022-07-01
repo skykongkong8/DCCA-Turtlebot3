@@ -12,15 +12,17 @@ names: ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 't
         'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear',
         'hair drier', 'toothbrush'] 
 
-@dataclass
+
 class DCCA_DataStructure:
-    label : str
-    distance : float
-    cautionLevel : int = cautionLevel_Hasher(label)
-    position = None
+    def __init__(self, label, distance):
+        self.label : str = label
+        self.distance : float = distance
+        self.cautionLevel : int = cautionLevel_Hasher(label)
 
+        self.position = None
 
-def cautionLevel_Hasher(name):
-    level = names.index(name)
-
-    return level
+    
+    def cautionLevel_Hasher(self, name):
+        level = names.index(name)
+        assert level == int
+        return level

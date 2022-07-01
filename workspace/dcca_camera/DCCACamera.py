@@ -2,7 +2,7 @@ import sys
 sys.path.append("..")
 from RGBDRealsenseCamera import RGBDRealsenseCamera
 from yolov5.DCCAYoloManager import DCCAYoloManager
-from DCCA_DataStructure import DCCA_DataStructure
+from dcca_dataStructure.DCCADataStructure import DCCA_DataStructure
 from sklearn.cluster import KMeans
 import cv2
 # from yolov5.recognition_with_realsense import run
@@ -89,7 +89,7 @@ class DCCACamera(RGBDRealsenseCamera):
         return final_distance
 
     def data_formulator(self, label, distance):
-        data = DCCA_DataStructure(label, distance)
+        data = DCCA_DataStructure(label = label, distance = distance)
 
         return data   
 
@@ -100,15 +100,22 @@ if __name__ == "__main__":
         while True:
             flag, rgb_img, depth_img  = dcca_camera.get_frame_stream()
             detected_results = dcca_camera.dcca_yolov5(flag, rgb_img, depth_img, cvView = True)
+
+            data_lists = []
             for detected_object in detected_results:
                 x1, y1, x2, y2 = detected_object[0][0], detected_object[0][1], detected_object[0][2], detected_object[0][3]
                 label = detected_object[1]
                 
-                print(f"label : {label}")
-                print(f"x1: {x1}\ty1: {y1}\tx2: {x2}\ty2: {y2}\n")
+                # print(f"label : {label}")
+                # print(f"x1: {x1}\ty1: {y1}\tx2: {x2}\ty2: {y2}\n")
                 
                 cut_depthImage = dcca_camera.cut_depthFrame(x1, y1, x2, y2, depth_img)
                 final_depth = dcca_camera.cluster_depths(cut_depthImage)
+                data = dcca_camera.data_formulator(label, final_depth)
+                data_lists.append(data)
+            print(data_lists)
+
+                
 
 
                 
