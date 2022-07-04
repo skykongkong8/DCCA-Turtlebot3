@@ -5,7 +5,7 @@ from yolov5.DCCAYoloManager import DCCAYoloManager
 from dcca_dataStructure.DCCADataStructure import DCCA_DataStructure
 from sklearn.cluster import KMeans
 import cv2
-# from yolov5.recognition_with_realsense import run
+
 
 
 
