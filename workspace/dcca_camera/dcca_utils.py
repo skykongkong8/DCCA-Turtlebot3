@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from camera_constants import N_CLUSTERS
+from .camera_constants import N_CLUSTERS
 from sklearn.cluster import KMeans
 import numpy as np
 # import cv2

@@ -1,21 +1,36 @@
-# 1. Camera Instance를 형성하고 data를 받아옴, (아니면 Camera Data를 얻어오는 subscriber를 생성함)
-# 2. Segmentation result를 형성함.
-    # 이때 Segmentation은 DepthMap이 아니라, pixel별 classMap
-# 3. Object Detection result를 형성함.
-    # box내 pixel수 등을 기준으로 정확도 향상
-# 4. Class별 Distance Map을 형성함.
-    # DistanceDataStructure를 만들자:
-        # Class, Distance, LevelOfDangerous, 
-# 5. Output을 다듬어서 반환함. (아니면 Info등의 토픽으로 publish함)
+from dcca_camera.DCCACamera import DCCACamera
+from dcca_camera.RGBDRealsenseCamera import RGBDRealsenseCamera
+from dcca_camera.dcca_utils import cut_Frame, kmeans_clustering
 
 
 
-while True:
-    flag, bgr_frame, depth_frame = rs.get_frame_stream()
+if __name__ == "__main__":
+    dcca_camera = DCCACamera()
+    try:
+        while True:
+            flag, rgb_img, depth_img  = dcca_camera.get_frame_stream()
+            detected_results = dcca_camera.dcca_yolov5(flag, rgb_img, depth_img, cvView = True)
 
-    boxes, classes, contours, centers = detect(bgr_frame)
+            data_lists = []
+            for detected_object in detected_results:
+                x1, y1, x2, y2 = detected_object[0][0], detected_object[0][1], detected_object[0][2], detected_object[0][3]
+                label = detected_object[1]
+                
+                if depth_img.any():
+                    print(f"depth image :\n{depth_img}")
+                    cut_depthImage = cut_Frame(int(x1), int(y1), int(x2), int(y2), depth_img)
+                    print(f"x1: {x1}\ty1: {y1}\tx2: {x2}\ty2: {y2}\n")
 
-    bgr_frame = detect.draw_object_mask(bgr_frame)
+                    if cut_depthImage.any():
+                        print(f"cut image :\n{cut_depthImage}")
+                        final_depth = kmeans_clustering(cut_depthImage)
+                        DCCA_data = dcca_camera.data_formulator(label, final_depth)
+                        print(f"DCCA Data:\n{DCCA_data}")
+                        data_lists.append(DCCA_data)
 
-    detect.draw_object_info(bgr_frame, depth_frame)
+                print(f"DCCA DataStructure has created! : {data_lists}")
 
+    except Exception as e:
+        print(e)
+    finally:
+        dcca_camera.release()

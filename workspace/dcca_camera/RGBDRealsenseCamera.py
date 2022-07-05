@@ -1,8 +1,8 @@
 import numpy as np
 import cv2
 import pyrealsense2.pyrealsense2 as rs
-from camera_constants import DCCACameraConstants
-from DCCADepthFilterManager import DCCADepthFilterManager
+from .camera_constants import DCCACameraConstants
+from .DCCADepthFilterManager import DCCADepthFilterManager
 
 class RGBDRealsenseCamera:
     def __init__(self):
