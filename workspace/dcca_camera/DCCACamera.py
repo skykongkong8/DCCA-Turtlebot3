@@ -3,7 +3,8 @@ sys.path.append("..")
 from RGBDRealsenseCamera import RGBDRealsenseCamera
 from yolov5.DCCAYoloManager import DCCAYoloManager
 from dcca_dataStructure.DCCADataStructure import DCCA_DataStructure
-from sklearn.cluster import KMeans
+from dcca_utils import *
+import numpy as np
 import cv2
 
 
@@ -25,6 +26,7 @@ class DCCACamera(RGBDRealsenseCamera):
         self.model = model_setting[0]
         self.device = model_setting[1]
         self.names = model_setting[2]
+        self.n_clusters = 3
         print("DCCACamera Initialized...")
 
     def dcca_yolov5(self, flag, rgb_img, depth_img, cvView = False):
@@ -51,47 +53,12 @@ class DCCACamera(RGBDRealsenseCamera):
 
         return detected_results
 
-    def cut_depthFrame(self, x1, y1, x2, y2, depth_img):
-        cut_depthImage = depth_img[y1:y2, x1:x2]
-
-        cv2.imshow("cut image", cut_depthImage)
-        cv2.waitKey(1)
-
-        return cut_depthImage
-
-    def cluster_depths(self, image):
-        """
-        1. 인식한 물체를 기준으로 좌우상단, 좌우하단, 본체 이렇게 군집화될 것을 예상해서 n = 5
-        2. 인식한 물체의 상하만 생각해서 n = 3
-
-        클러스터링 후 가장 큰 클러스터의 평균을 거리로서 활용
-        """
-        n_clusters = 3
-        kmeans = KMeans(n_clusters = n_clusters)
-        original_r, original_c = image.shape[0], image.shape[1]
-        image = image.reshape(-1,1)
-        kmeans.fit(image)
-
-        labels = kmeans.labels_
-        target = np.bincount(x).argmax()
-
-        total_distance = 0.
-        total_count = 0.
-        for i in range(image):
-            if labels[i] == target:
-                total_count += 1
-                total_distance += image[i]
-
-        final_distance = 0.
-        if toal_count != 0:
-            final_distance = total_distance / total_count
-        
-        return final_distance
 
     def data_formulator(self, label, distance):
         data = DCCA_DataStructure(label = label, distance = distance)
 
-        return data   
+        return data
+
 
 
 if __name__ == "__main__":
@@ -108,12 +75,18 @@ if __name__ == "__main__":
                 
                 # print(f"label : {label}")
                 # print(f"x1: {x1}\ty1: {y1}\tx2: {x2}\ty2: {y2}\n")
-                
-                cut_depthImage = dcca_camera.cut_depthFrame(x1, y1, x2, y2, depth_img)
-                final_depth = dcca_camera.cluster_depths(cut_depthImage)
-                data = dcca_camera.data_formulator(label, final_depth)
-                data_lists.append(data)
-            print(data_lists)
+
+                if depth_img.any():
+                    print(f"depth image :\n{depth_img}")
+                    cut_depthImage = cut_Frame(int(x1), int(y1), int(x2), int(y2), depth_img)
+                    print(f"x1: {x1}\ty1: {y1}\tx2: {x2}\ty2: {y2}\n")
+                    if cut_depthImage.any():
+                        print(f"cut image :\n{cut_depthImage}")
+                        final_depth = kmeans_clustering(cut_depthImage)
+                        DCCA_data = dcca_camera.data_formulator(label, final_depth)
+                        print(f"DCCA Data:\n{DCCA_data}")
+                        data_lists.append(DCCA_data)
+                print(f"DCCA DataStructure has created! : {data_lists}")
 
                 
 

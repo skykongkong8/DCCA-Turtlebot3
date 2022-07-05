@@ -122,6 +122,14 @@ class DCCACameraConstants:
     device_info = device_checker() # this is not an intended attribute
     RGB : bool = device_info[0]
     DeviceProductLine : str = device_info[1]
+
+
+
+###################
+#      UTILS      #
+###################
+
+N_CLUSTERS = 3
     
 
 if __name__ == "__main__":
